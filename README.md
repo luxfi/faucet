@@ -1,8 +1,8 @@
-# Avalanche Subnet Faucet
+# Lux Subnet Faucet
 
 Right now there are thousands of networks and chains in the blockchain space, each with its capabilities and use-cases. And each network requires native coins to do any transaction on them, which can have a monetary value as well. These coins can be collected through centralized exchanges, token sales, etc in exchange for some monetary assets like USD.
 
-But we cannot risk our funds on the network or on any applications hosted on that network, without testing them first. So, these networks often have test networks or testnets, where the native coins do not have any monetary value, and thus can be obtained freely through faucets. 
+But we cannot risk our funds on the network or on any applications hosted on that network, without testing them first. So, these networks often have test networks or testnets, where the native coins do not have any monetary value, and thus can be obtained freely through faucets.
 
 These testnets are often the testbeds for any new native feature of the network itself, or any dApp or [Subnet](https://www.avax.network/subnets) that is going live on the main network (mainnet). For example, [Fuji](https://docs.avax.network/quickstart/fuji-workflow) network is the testnet for Avalanche's mainnet.
 
@@ -232,7 +232,7 @@ Send token API requires a Captcha response token that is generated using the Cap
 
 ### Rate Limiters (Important)
 
-The rate limiters are applied on the global (all endpoints) as well as on the `/api/sendToken` API. These can be configured from the `config.json` file. Rate limiting parameters for chains are passed in the chain configuration as shown above. 
+The rate limiters are applied on the global (all endpoints) as well as on the `/api/sendToken` API. These can be configured from the `config.json` file. Rate limiting parameters for chains are passed in the chain configuration as shown above.
 
 ```json
 "GLOBAL_RL": {
