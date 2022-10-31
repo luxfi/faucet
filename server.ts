@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import path from 'path'
 import dotenv from 'dotenv'
-import { BN } from 'avalanche'
+import { BN } from 'lux-js'
 
 import { RateLimiter, VerifyCaptcha, parseURI } from './middlewares'
 import EVM from './vms/evm'

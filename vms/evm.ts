@@ -1,4 +1,4 @@
-import { BN } from 'avalanche'
+import { BN } from 'lux-js'
 import Web3 from 'web3'
 
 import { calculateBaseUnit } from './utils'
