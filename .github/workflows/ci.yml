@@ -16,4 +16,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: false
-          tags: luxfi/lux-faucets:ci
+          tags: luxfi/faucet:ci
