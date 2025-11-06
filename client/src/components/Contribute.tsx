@@ -13,7 +13,7 @@ const Contribute = () => {
             className = {`contribute-button ${hiddenClass}`}
             onClick={
                 () => {
-                    window.open('https://github.com/ava-labs/lux-js-faucet', '_blank')
+                    window.open('https://github.com/luxfi/lux-js-faucet', '_blank')
                 }
             }>
             <img alt='github' src="/github.webp"/>

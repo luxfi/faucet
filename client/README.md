@@ -12,7 +12,7 @@ This repository has both server and client that is required to host a faucet for
 Clone this repository at your preferred location.
 
 ```bash
-git clone https://github.com/ava-labs/faucet
+git clone https://github.com/luxfi/faucet
 ```
 
 ## Client Side Configurations
