@@ -26,7 +26,7 @@ dotenv.config()
 const app: any = express()
 const router: any = express.Router()
 
-app.use(express.static(path.join(__dirname, "client")))
+// Enable CORS for the new Next.js app
 app.use(cors())
 app.use(parseURI)
 app.use(bodyParser.json())
@@ -163,10 +163,15 @@ app.get('/ip', (req: any, res: any) => {
     })
 })
 
-app.get('*', async (req: any, res: any) => {
-    res.sendFile(path.join(__dirname, "client", "index.html"))
+// Backend API only - frontend is served by Next.js on port 3000
+app.all('*', (req: any, res: any) => {
+    res.status(404).json({
+        error: 'Not Found',
+        message: 'Frontend is served at http://localhost:3000'
+    })
 })
 
 app.listen(process.env.PORT || 8000, () => {
     console.log(`Server started at port ${process.env.PORT || 8000}`)
+    console.log(`Frontend available at http://localhost:3000`)
 })
