@@ -19,4 +19,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: avaplatform/avalanche-faucet:${{ github.event.release.tag_name }}
+          tags: luxfi/lux-faucet:${{ github.event.release.tag_name }}

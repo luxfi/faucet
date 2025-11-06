@@ -67,8 +67,8 @@ You can create faucet server for any EVM chain by making changes in the `config.
 "evmchains": [
     {
         "NAME": "C",
-        "TOKEN": "AVAX",
-        "RPC": "https://api.avax-test.network/ext/C/rpc",
+        "TOKEN": "LUX",
+        "RPC": "https://api.lux-test.network/ext/C/rpc",
         "MAX_PRIORITY_FEE": "2000000000",
         "MAX_FEE": "100000000000",
         "DRIP_AMOUNT": 10000000000
@@ -76,14 +76,14 @@ You can create faucet server for any EVM chain by making changes in the `config.
     {
         "NAME": "WAGMI",
         "TOKEN": "WGM",
-        "RPC": "https://subnets.avax.network/wagmi/wagmi-chain-testnet/rpc",
+        "RPC": "https://subnets.lux.network/wagmi/wagmi-chain-testnet/rpc",
         "MAX_PRIORITY_FEE": "2000000000",
         "MAX_FEE": "100000000000",
         "DRIP_AMOUNT": 10000000
     }
 ]
 ```
-In the above configuration drip amount is in `nAVAX` or `gwei`, whereas fees are in `wei`. For example, with the above configurations, the faucet will send `1 AVAX` with maximum fees per gas being `100 nAVAX` and priority fee as `2 nAVAX`.
+In the above configuration drip amount is in `nLUX` or `gwei`, whereas fees are in `wei`. For example, with the above configurations, the faucet will send `1 LUX` with maximum fees per gas being `100 nLUX` and priority fee as `2 nLUX`.
 
 ## Starting the Faucet
 

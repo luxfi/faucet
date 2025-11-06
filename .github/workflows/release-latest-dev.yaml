@@ -20,4 +20,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: avaplatform/avalanche-faucet:latest
+          tags: luxfi/lux-faucet:latest
