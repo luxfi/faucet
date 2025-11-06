@@ -8,11 +8,13 @@
     "pnpm": ">=8.0.0"
   },
   "scripts": {
-    "build": "pnpm exec tsc && cd client && pnpm build",
+    "build": "tsc && pnpm --filter @luxfi/faucet-app build",
     "start": "node build/server.js",
-    "dev": "pnpm exec concurrently \"pnpm exec nodemon server.ts\" \"cd client && pnpm dev\"",
-    "generate": "ts-node scripts/generateKey.ts",
-    "generate:key": "ts-node scripts/generateKey.ts"
+    "dev": "tsx watch server.ts",
+    "dev:app": "pnpm --filter @luxfi/faucet-app dev",
+    "dev:all": "pnpm dev & pnpm dev:app",
+    "generate": "tsx scripts/generateKey.ts",
+    "generate:key": "tsx scripts/generateKey.ts"
   },
   "keywords": [],
   "author": "",
@@ -34,7 +36,6 @@
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/totp-generator": "^0.0.4",
-    "concurrently": "^9.2.1",
-    "nodemon": "^3.1.10"
+    "tsx": "^4.20.6"
   }
 }

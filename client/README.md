@@ -61,7 +61,7 @@ curl -X GET "http://localhost:8000/api/recalibrate?token=617840"
 
 ### Setup EVM Chain Configurations
 
-You can create faucet server for any EVM chain by making changes in the `config.json` file. Add your chain configuration like shown below in the `evmchains` object. Configuration for Fuji's C-Chain and WAGMI chain is shown below for example.
+You can create faucet server for any EVM chain by making changes in the `config.json` file. Add your chain configuration like shown below in the `evmchains` object. Configuration for Testnet's C-Chain and WAGMI chain is shown below for example.
 
 ```json
 "evmchains": [

@@ -12,7 +12,7 @@
     "evmchains": [
         {
             "ID": "C",
-            "NAME": "Fuji (C-Chain)",
+            "NAME": "Testnet (C-Chain)",
             "TOKEN": "AVAX",
             "RPC": "https://api.avax-test.network/ext/C/rpc",
             "CHAINID": 43113,

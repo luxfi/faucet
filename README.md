@@ -12,7 +12,7 @@ You can use this [repository](https://github.com/luxdefi/faucet) to deploy your 
 
 ## TL;DR
 
-A [Faucet](https://faucet.lux.network/) powered by LUX for Fuji Network and other Subnets. You can -
+A [Faucet](https://faucet.lux.network/) powered by LUX for Testnet Network and other Subnets. You can -
 
 * Request test coins for the supported Subnets
 * Integrate your EVM Subnet with the faucet by making a PR with the [chain configurations](https://github.com/luxdefi/faucet/blob/main/config.json)
@@ -118,7 +118,7 @@ CAPTCHA_SECRET="Google ReCaptcha Secret"
 
 #### Setup EVM Chain Configurations
 
-You can create a faucet server for any EVM chain by making changes in the `config.json` file. Add your chain configuration as shown below in the `evmchains` object. Configuration for Fuji's C-Chain and WAGMI chain is shown below for example.
+You can create a faucet server for any EVM chain by making changes in the `config.json` file. Add your chain configuration as shown below in the `evmchains` object. Configuration for Testnet's C-Chain and WAGMI chain is shown below for example.
 
 ```json
 "evmchains": [
