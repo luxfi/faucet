@@ -16,7 +16,20 @@ build
 # IDE
 .idea
 
+# Next.js
+app/.next/
+app/out/
 
+# Playwright
+app/playwright-report/
+app/test-results/
+
+# Inspection/Analysis files (temporary)
+INSPECTION_*.md
+UI_INSPECTION_*.md
+UI_INSPECTION_*.txt
+inspect_ui.mjs
+ui_inspection_results/
 
 AGENTS.md
 CLAUDE.md
