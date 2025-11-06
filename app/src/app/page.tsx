@@ -2,14 +2,53 @@
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { toast } from "sonner";
+import { AddNetworkButton } from "@/components/add-network-button";
+
+interface ChainConfig {
+  ID: string;
+  NAME: string;
+  TOKEN: string;
+  RPC: string;
+  CHAINID: number;
+  EXPLORER: string;
+  DRIP_AMOUNT: number;
+  RATELIMIT: {
+    MAX_LIMIT: number;
+    WINDOW_SIZE: number;
+  };
+}
 
 export default function Home() {
   const { address, isConnected } = useAccount();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [recipientAddress, setRecipientAddress] = useState("");
   const [selectedChain, setSelectedChain] = useState("C");
   const [loading, setLoading] = useState(false);
+  const [chains, setChains] = useState<ChainConfig[]>([]);
+  const [currentChainConfig, setCurrentChainConfig] = useState<ChainConfig | null>(null);
+
+  // Load chain configurations
+  useEffect(() => {
+    const loadChains = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/getChainConfigs`);
+        const data = await response.json();
+        setChains(data.configs || []);
+      } catch (error) {
+        console.error("Failed to load chain configs:", error);
+      }
+    };
+    loadChains();
+  }, []);
+
+  // Update current chain config when selection changes
+  useEffect(() => {
+    const config = chains.find((c) => c.ID === selectedChain);
+    setCurrentChainConfig(config || null);
+  }, [selectedChain, chains]);
 
   const handleRequest = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,23 +59,48 @@ export default function Home() {
       return;
     }
 
+    if (!executeRecaptcha) {
+      toast.error("ReCaptcha not loaded");
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${selectedChain}`, {
+      // Get ReCaptcha token
+      const token = await executeRecaptcha("faucet_request");
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/sendToken`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ address: targetAddress }),
+        body: JSON.stringify({
+          address: targetAddress,
+          chain: selectedChain,
+          token,
+        }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        toast.success(`Successfully sent tokens to ${targetAddress.slice(0, 6)}...${targetAddress.slice(-4)}`);
+        toast.success(
+          `Successfully sent ${currentChainConfig?.DRIP_AMOUNT || 2} ${currentChainConfig?.TOKEN || "tokens"} to ${targetAddress.slice(0, 6)}...${targetAddress.slice(-4)}`
+        );
         setRecipientAddress("");
+
+        // Show transaction link if available
+        if (data.txHash && currentChainConfig?.EXPLORER) {
+          toast.info("View Transaction", {
+            action: {
+              label: "Open Explorer",
+              onClick: () => window.open(`${currentChainConfig.EXPLORER}/tx/${data.txHash}`, "_blank"),
+            },
+          });
+        }
       } else {
         toast.error(data.message || "Failed to send tokens");
       }
     } catch (error) {
+      console.error("Request error:", error);
       toast.error("Network error. Please try again.");
     } finally {
       setLoading(false);
@@ -72,11 +136,15 @@ export default function Home() {
                 onChange={(e) => setSelectedChain(e.target.value)}
                 className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               >
-                <option value="C">Lux Testnet (C-Chain)</option>
-                <option value="WAGMI">WAGMI Testnet</option>
-                <option value="DFK">DeFi Kingdoms Testnet</option>
-                <option value="SWIMMER">Swimmer Testnet</option>
-                <option value="NMAC">Rise of Warbots Testnet</option>
+                {chains.length > 0 ? (
+                  chains.map((chain) => (
+                    <option key={chain.ID} value={chain.ID}>
+                      {chain.NAME} ({chain.TOKEN})
+                    </option>
+                  ))
+                ) : (
+                  <option value="C">Loading...</option>
+                )}
               </select>
             </div>
 
@@ -114,12 +182,31 @@ export default function Home() {
           <div className="mt-8 space-y-3 rounded-lg bg-muted/50 p-4 text-sm">
             <h3 className="font-semibold">Important Notes:</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>• Rate limited to 1 request per address every 24 hours</li>
-              <li>• Maximum 2 test tokens per request</li>
+              <li>
+                • Rate limited to {currentChainConfig?.RATELIMIT.MAX_LIMIT || 1} request
+                {(currentChainConfig?.RATELIMIT.MAX_LIMIT || 1) > 1 && "s"} per address every{" "}
+                {currentChainConfig?.RATELIMIT.WINDOW_SIZE || 1440} minutes
+              </li>
+              <li>
+                • Drip amount: {currentChainConfig?.DRIP_AMOUNT || 2} {currentChainConfig?.TOKEN || "tokens"} per request
+              </li>
               <li>• Test tokens have no real value</li>
               <li>• For development and testing purposes only</li>
             </ul>
           </div>
+
+          {/* Add Network Button */}
+          {currentChainConfig && (
+            <AddNetworkButton
+              config={{
+                CHAINID: currentChainConfig.CHAINID,
+                NAME: currentChainConfig.NAME,
+                TOKEN: currentChainConfig.TOKEN,
+                RPC: currentChainConfig.RPC,
+                EXPLORER: currentChainConfig.EXPLORER,
+              }}
+            />
+          )}
         </div>
 
         {/* Tech Stack */}
