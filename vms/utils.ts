@@ -1,4 +1,4 @@
-import { BN } from 'lux-js'
+import { BN } from 'luxfi'
 
 export function calculateBaseUnit(amount: string, decimals: number): BN {
     for(let i = 0; i < decimals; i++) {

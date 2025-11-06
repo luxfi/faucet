@@ -1,4 +1,4 @@
-import { BN } from 'lux-js'
+import { BN } from 'luxfi'
 import Web3 from 'web3'
 
 import { calculateBaseUnit } from './utils'
@@ -32,7 +32,9 @@ export default class EVM {
 
     constructor(config: ChainType, PK: string | undefined) {
         this.web3 = new Web3(config.RPC)
-        this.account = this.web3.eth.accounts.privateKeyToAccount(PK)
+        // Ensure private key has 0x prefix for web3
+        const privateKey = PK?.startsWith('0x') ? PK : `0x${PK}`
+        this.account = this.web3.eth.accounts.privateKeyToAccount(privateKey)
         this.contracts = new Map()
 
         this.NAME = config.NAME

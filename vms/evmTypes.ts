@@ -1,4 +1,4 @@
-import { BN } from 'lux-js'
+import { BN } from 'luxfi'
 
 export type ChainType = {
     ID: string,
