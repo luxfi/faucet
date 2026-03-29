@@ -13,6 +13,10 @@ COPY . .
 
 RUN pnpm build
 
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 8000
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["pnpm", "start"]
